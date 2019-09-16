@@ -61,7 +61,17 @@ export default class InputEmail extends Component {
 
 	renderInput() {
 		const { localValue = '' } = this.state;
-		const { disabled = false, id, label = '', onChange, placeholder = '', styles = {}, value = '' } = this.props;
+		const {
+			disabled = false,
+			id,
+			label = '',
+			onBlur,
+			onChange,
+			onPressEnter,
+			placeholder = '',
+			styles = {},
+			value = ''
+		} = this.props;
 
 		return (
 			<Input
@@ -75,11 +85,13 @@ export default class InputEmail extends Component {
 				onBlur={e => {
 					if (e.target.value != value) onChange(id, e.target.value);
 					this.setState({ isFocused: false });
+					if (onBlur) onBlur(e);
 				}}
 				onChange={e => this.onChange(e.target.value)}
 				onFocus={() => this.setState({ isFocused: true })}
 				onPressEnter={e => {
 					onChange(id, e.target.value);
+					if (onPressEnter) onPressEnter(e);
 					return true;
 				}}
 				value={localValue ? localValue : ''}
