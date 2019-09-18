@@ -7,10 +7,10 @@ import './styles.css';
 export default class InputEmail extends Component {
 	state = { errors: [] };
 
-	onChange = async value => {
+	onChange = async (e, value) => {
 		const { id, onChange, onValidate } = this.props;
 
-		onChange(id, value);
+		onChange(e, id, value);
 		const errors = this.validate(value);
 		await this.setState({ errors, localValue: value });
 		if (onValidate) onValidate(id, errors);
@@ -52,7 +52,7 @@ export default class InputEmail extends Component {
 				style={styles}
 				type="text"
 				onBlur={onBlur}
-				onChange={e => this.onChange(e.target.value)}
+				onChange={e => this.onChange(e, e.target.value)}
 				onPressEnter={onPressEnter}
 				value={value}
 			/>
