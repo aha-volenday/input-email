@@ -7,13 +7,18 @@ import './styles.css';
 export default class InputEmail extends Component {
 	state = { errors: [] };
 
+	onChangeTimeout = null;
 	onChange = async (e, value) => {
 		const { id, onChange, onValidate } = this.props;
 
 		onChange(e, id, value);
-		const errors = this.validate(value);
-		await this.setState({ errors, localValue: value });
-		if (onValidate) onValidate(id, errors);
+
+		this.onChangeTimeout && clearTimeout(this.onChangeTimeout);
+		this.onChangeTimeout = setTimeout(async () => {
+			const errors = this.validate(value);
+			await this.setState({ errors, localValue: value });
+			if (onValidate) onValidate(id, errors);
+		}, 500);
 	};
 
 	validate = value => {
