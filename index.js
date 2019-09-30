@@ -1,38 +1,12 @@
 import React, { Component } from 'react';
-import validate from 'validate.js';
 import { Form, Input } from 'antd';
 
 import './styles.css';
 
 export default class InputEmail extends Component {
-	state = { errors: [] };
-
-	onChangeTimeout = null;
 	onChange = async (e, value) => {
 		const { id, onChange, onValidate } = this.props;
-
 		onChange(e, id, value);
-
-		this.onChangeTimeout && clearTimeout(this.onChangeTimeout);
-		this.onChangeTimeout = setTimeout(async () => {
-			const errors = this.validate(value);
-			await this.setState({ errors, localValue: value });
-			if (onValidate) onValidate(id, errors);
-		}, 500);
-	};
-
-	validate = value => {
-		const { id, required = false } = this.props;
-
-		const constraints = {
-			[id]: {
-				email: true,
-				presence: { allowEmpty: !required }
-			}
-		};
-
-		const errors = validate({ [id]: value }, constraints);
-		return validate.isEmpty(value) && !required ? [] : errors ? errors[id] : [];
 	};
 
 	renderInput() {
@@ -65,15 +39,14 @@ export default class InputEmail extends Component {
 	}
 
 	render() {
-		const { errors } = this.state;
-		const { label = '', required = false, withLabel = false } = this.props;
+		const { error = null, label = '', required = false, withLabel = false } = this.props;
 
 		const formItemCommonProps = {
 			colon: false,
-			help: errors.length != 0 ? errors[0] : '',
+			help: error ? error : '',
 			label: withLabel ? label : false,
 			required,
-			validateStatus: errors.length != 0 ? 'error' : 'success'
+			validateStatus: error ? 'error' : 'success'
 		};
 
 		return <Form.Item {...formItemCommonProps}>{this.renderInput()}</Form.Item>;
