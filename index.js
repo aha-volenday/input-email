@@ -5,7 +5,7 @@ import './styles.css';
 
 export default class InputEmail extends Component {
 	onChange = async (e, value) => {
-		const { id, onChange, onValidate } = this.props;
+		const { id, onChange } = this.props;
 		onChange(e, id, value);
 	};
 
@@ -39,12 +39,18 @@ export default class InputEmail extends Component {
 	}
 
 	render() {
-		const { error = null, label = '', required = false, withLabel = false } = this.props;
+		const { error = null, extra = null, label = '', required = false, withLabel = false } = this.props;
 
 		const formItemCommonProps = {
 			colon: false,
 			help: error ? error : '',
-			label: withLabel ? label : false,
+			label: withLabel ? (
+				<>
+					<div style={{ float: 'right' }}>{extra}</div> <span class="label">{label}</span>
+				</>
+			) : (
+				false
+			),
 			required,
 			validateStatus: error ? 'error' : 'success'
 		};
