@@ -4,17 +4,13 @@ import { Form, Input } from 'antd';
 import './styles.css';
 
 export default class InputEmail extends Component {
-	onChange = async (e, value) => {
-		const { id, onChange } = this.props;
-		onChange(e, id, value);
-	};
-
 	renderInput() {
 		const {
 			disabled = false,
 			id,
 			label = '',
 			onBlur = () => {},
+			onChange,
 			onPressEnter = () => {},
 			placeholder = '',
 			styles = {},
@@ -23,7 +19,6 @@ export default class InputEmail extends Component {
 
 		return (
 			<Input
-				allowClear
 				autoComplete="off"
 				disabled={disabled}
 				name={id}
@@ -31,7 +26,7 @@ export default class InputEmail extends Component {
 				style={styles}
 				type="text"
 				onBlur={onBlur}
-				onChange={e => this.onChange(e, e.target.value)}
+				onChange={e => onChange(e, id, e.target.value)}
 				onPressEnter={onPressEnter}
 				value={value}
 			/>
