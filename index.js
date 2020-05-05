@@ -1,22 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Form, Input } from 'antd';
 
 import './styles.css';
 
-export default class InputEmail extends Component {
-	renderInput() {
-		const {
-			disabled = false,
-			id,
-			label = '',
-			onBlur = () => {},
-			onChange,
-			onPressEnter = () => {},
-			placeholder = '',
-			styles = {},
-			value = ''
-		} = this.props;
-
+export default ({
+	disabled = false,
+	error = null,
+	extra = null,
+	id,
+	label = '',
+	onBlur = () => {},
+	onChange,
+	onPressEnter = () => {},
+	placeholder = '',
+	required = false,
+	styles = {},
+	value = '',
+	withLabel = false
+}) => {
+	const renderInput = () => {
 		return (
 			<Input
 				autoComplete="off"
@@ -31,25 +33,21 @@ export default class InputEmail extends Component {
 				value={value}
 			/>
 		);
-	}
+	};
 
-	render() {
-		const { error = null, extra = null, label = '', required = false, withLabel = false } = this.props;
+	const formItemCommonProps = {
+		colon: false,
+		help: error ? error : '',
+		label: withLabel ? (
+			<>
+				<div style={{ float: 'right' }}>{extra}</div> <span class="label">{label}</span>
+			</>
+		) : (
+			false
+		),
+		required,
+		validateStatus: error ? 'error' : 'success'
+	};
 
-		const formItemCommonProps = {
-			colon: false,
-			help: error ? error : '',
-			label: withLabel ? (
-				<>
-					<div style={{ float: 'right' }}>{extra}</div> <span class="label">{label}</span>
-				</>
-			) : (
-				false
-			),
-			required,
-			validateStatus: error ? 'error' : 'success'
-		};
-
-		return <Form.Item {...formItemCommonProps}>{this.renderInput()}</Form.Item>;
-	}
-}
+	return <Form.Item {...formItemCommonProps}>{renderInput()}</Form.Item>;
+};
