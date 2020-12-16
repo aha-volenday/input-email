@@ -33,7 +33,6 @@ export default ({
 					const newValue = e.target.value.trim();
 					onChange({ target: { name: id, value: newValue } }, id, newValue);
 					onBlur(e);
-					console.log(e.target.value.trim());
 				}}
 				onChange={e => onChange(e, id, e.target.value)}
 				onPressEnter={onPressEnter}
