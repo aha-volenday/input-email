@@ -29,7 +29,11 @@ export default ({
 				placeholder={placeholder || label || id}
 				style={styles}
 				type="text"
-				onBlur={onBlur}
+				onBlur={e => {
+					const newValue = e.target.value.trim();
+					onChange({ target: { name: id, value: newValue } }, id, newValue);
+					onBlur(e);
+				}}
 				onChange={e => onChange(e, id, e.target.value)}
 				onPressEnter={onPressEnter}
 				value={value}
