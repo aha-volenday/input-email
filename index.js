@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Skeleton } from 'antd';
+import { Form, Input, Skeleton, Tooltip } from 'antd';
 
 const browser = typeof window !== 'undefined' ? true : false;
 
@@ -17,11 +17,12 @@ export default ({
 	placeholder = '',
 	required = false,
 	styles = {},
+	toolTip = {},
 	value = '',
 	withLabel = false
 }) => {
 	const renderInput = () => {
-		return (
+		const input = (
 			<Input
 				autoComplete="off"
 				disabled={disabled}
@@ -39,6 +40,7 @@ export default ({
 				value={value}
 			/>
 		);
+		return Object.keys(toolTip).length === 0 ? input : <Tooltip {...toolTip}>{input}</Tooltip>;
 	};
 
 	const formItemCommonProps = {
