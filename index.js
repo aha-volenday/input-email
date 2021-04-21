@@ -17,12 +17,12 @@ export default ({
 	placeholder = '',
 	required = false,
 	styles = {},
-	toolTip = {},
+	toolTip = '',
 	value = '',
 	withLabel = false
 }) => {
 	const renderInput = () => {
-		const input = (
+		return (
 			<Input
 				autoComplete="off"
 				disabled={disabled}
@@ -40,7 +40,6 @@ export default ({
 				value={value}
 			/>
 		);
-		return Object.keys(toolTip).length === 0 ? input : <Tooltip {...toolTip}>{input}</Tooltip>;
 	};
 
 	const formItemCommonProps = {
@@ -48,7 +47,15 @@ export default ({
 		help: error ? error : '',
 		label: withLabel ? (
 			<>
-				<div style={{ float: 'right' }}>{extra}</div> <span class="label">{label}</span>
+				<div style={{ float: 'right' }}>{extra}</div>
+				<span class="label">
+					{label}{' '}
+					{toolTip && (
+						<Tooltip title={toolTip}>
+							<QuestionCircleOutlined />
+						</Tooltip>
+					)}
+				</span>
 			</>
 		) : (
 			false
